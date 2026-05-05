@@ -139,7 +139,7 @@ with st.container():
     }
     if run_clicked and goal.strip():
         token = stfuncs.get_token()
-        log.debug(f"Using token: {token}")
+        #log.debug(f"Using token: {token}")
         progress_col, timer_col = st.columns([4, 1])
         with progress_col:
             progress_bar_placeholder = st.empty()
