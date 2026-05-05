@@ -1,0 +1,38 @@
+name: Sync to Hugging Face Space
+on:
+  push:
+    branches: [main]
+  # Enable manual triggering from Actions tab
+  workflow_dispatch:
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history so push works
+          lfs: true # Only needed if you decide to push binary LFS files
+      - name: Push to Hub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          
+          # Create a new branch with no history
+          git checkout --orphan hf_deploy
+          
+          # Swap READMEs: replace GitHub README with HF Spaces-specific version
+          # HF_README.md has the correct YAML frontmatter (title, sdk, emoji, etc.)
+          # and uses public URLs safe for the HF Spaces environment.
+          cp HF_README.md README.md
+          git rm --cached HF_README.md || true
+          git add README.md
+          
+          # Commit the current state as a single fresh commit
+          git commit -m "Sync to HF Spaces"
+          
+          # Force push this isolated commit to the main branch of HF Spaces
+          git push --force https://bfavro73:$HF_TOKEN@huggingface.co/spaces/bfavro73/taskflow-ai hf_deploy:main

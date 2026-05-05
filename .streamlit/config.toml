@@ -1,0 +1,14 @@
+[theme]
+primaryColor="#F63366"
+backgroundColor="#FFFFFF"
+secondaryBackgroundColor="#F0F2F6"
+textColor="#262730"
+font="sans serif"
+
+[logger]
+level="DEBUG" # DEBUG, INFO, WARNING, ERROR, CRITICAL, EXCEPTION
+messageFormat="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+[client]
+showErrorDetails="full"
+toolbarMode="auto"

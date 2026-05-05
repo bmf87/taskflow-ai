@@ -1,0 +1,29 @@
+/* Targets st.button and st.download_button */
+div.stButton>button,
+div.stDownloadButton>button {
+    background-color: #4C78A8;
+    /* Blue */
+    color: white;
+}
+
+div.stButton>button:hover,
+div.stDownloadButton>button:hover {
+    background-color: #3A5D82;
+    /* Darker blue */
+    color: white;
+    border: 2px solid #1F3246;
+}
+
+div.stButton>button:active,
+div.stDownloadButton>button:active {
+    background-color: #008CBA;
+    /* Blue */
+    color: white;
+}
+
+/* Force tooltip icons to sit immediately next to the label text (align left) instead of far right */
+[data-testid="stWidgetLabel"] > div {
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 0.5rem;
+}

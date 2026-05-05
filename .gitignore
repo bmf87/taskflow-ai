@@ -1,0 +1,16 @@
+# Ignore VS Code
+.vscode/ 
+
+# Ignore Python venv
+.venv/
+
+# Ignore env files
+*.env
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+# Ignore os generated files
+*.DS_Store
+
