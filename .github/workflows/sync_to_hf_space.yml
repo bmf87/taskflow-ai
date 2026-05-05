@@ -23,6 +23,9 @@ jobs:
           
           # Create a new branch with no history
           git checkout --orphan hf_deploy
+
+          # Exclude directories that contain binary/design files not needed on HF Spaces
+          git rm -rf --cached ui/images/ || true
           
           # Swap READMEs: replace GitHub README with HF Spaces-specific version
           # HF_README.md has the correct YAML frontmatter (title, sdk, emoji, etc.)
