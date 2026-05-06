@@ -7,6 +7,10 @@ from tfai.steps import (
 from tfai.http.http_client import call_orouter_chat
 from tfai.util import constants
 
+# HTTP Request Timeouts: Set per request for robustness.
+# (connect_timeout, read_timeout)
+# - 5 seconds connect: Fast failure if connection can't be established.
+# - 180 seconds read: Allows plenty of time for large LLM responses + free-tier latency.
 timeout_seconds: tuple[int, int] = (5, 180)
 
 
@@ -172,7 +176,7 @@ class AgentOrchestrator:
         global timeout_seconds
         reviewer_kwargs = {
             "goal": trace.goal,
-            "draft": trace.writer.response + "\n\nIMPORTANT: You must format your critique as a strict bulleted list of actionable suggestions.",
+            "draft": trace.writer.response + "\n\nIMPORTANT: You must format your critique as a numbered list of high-level refinements. You may include supporting text under each point.",
         }
 
         resp_text = call_orouter_chat(
@@ -185,7 +189,9 @@ class AgentOrchestrator:
             timeout=timeout_seconds,
         )
 
-        return ReviewerStep(prompt_kwargs=reviewer_kwargs, response=resp_text)
+        tasks = self._parse_tasks_from_text(resp_text)
+
+        return ReviewerStep(prompt_kwargs=reviewer_kwargs, response=resp_text, tasks=tasks)
 
     def _run_refiner(self, trace: OrchestrationTrace) -> WriterStep:
         """
@@ -226,10 +232,10 @@ class AgentOrchestrator:
             line = line.strip()
             if not line:
                 continue
-            if line[0].isdigit() and "." in line:
-                line = line.split(".", 1)[1].strip()
-            elif line.startswith("- "):
-                line = line[2:]
-            tasks.append(line)
+            # Only extract lines that explicitly start with a number or bullet
+            if line[0].isdigit() and "." in line[:3]:
+                tasks.append(line.split(".", 1)[1].strip())
+            elif line.startswith("- ") or line.startswith("* "):
+                tasks.append(line[2:])
         return tasks
 

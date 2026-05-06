@@ -23,6 +23,7 @@ class WriterStep:
 class ReviewerStep:
     prompt_kwargs: dict
     response: str  # critique
+    tasks: List[str] = field(default_factory=list)
 
 @dataclass
 class OrchestrationTrace:

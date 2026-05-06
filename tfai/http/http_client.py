@@ -68,10 +68,10 @@ def list_models(token: str, free_models: bool = True) -> List[Dict[str, Any]]:
         timeout=timeout_seconds,
     )
     resp.raise_for_status()
+    
+    # based on FastAPI response shape
     try:
         data = resp.json()
-        #log.debug(f"Type of data: {type(data)}")
-        #log.debug(f"Data: {data}")
         if isinstance(data, dict) and "response" in data:
             return data["response"]
         if isinstance(data, str):
@@ -186,7 +186,6 @@ def call_orouter_chat(
         log.error(f"Error calling orouter-service: {e}")
         return f"API Error: {e}"
 
-    # Adjust based on FastAPI response shape
     try:
         data = resp.json()
         if isinstance(data, dict) and "response" in data:

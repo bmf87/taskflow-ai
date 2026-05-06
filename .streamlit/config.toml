@@ -6,7 +6,7 @@ textColor="#262730"
 font="sans serif"
 
 [logger]
-level="DEBUG" # DEBUG, INFO, WARNING, ERROR, CRITICAL, EXCEPTION
+level="INFO" # DEBUG, INFO, WARNING, ERROR, CRITICAL, EXCEPTION
 messageFormat="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 [client]

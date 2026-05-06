@@ -31,3 +31,6 @@ The `http_client.py` module handles all external communication with the `orouter
 - **Graceful Degradation:** The LLM generation space is prone to provider timeouts (e.g., Cloudflare 524 errors). The client explicitly catches all `requests.exceptions.RequestException`s so that instead of bubbling up and crashing the Streamlit UI, the application gracefully reports the API error and allows the user to easily retry. 
 - **Non-blocking UI Components:** Because the `http_client` makes synchronous, blocking network calls, long LLM generation times would typically freeze the Streamlit UI. To counter this, a background thread attached to Streamlit's `ScriptRunContext` (`add_script_run_ctx`) continuously updates a live wall-clock timer, keeping the user interface active and informative while the main thread waits for the HTTP response.
 
+## Demo App
+
+[![Open in HF Spaces](https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/bfavro73/taskflow-ai)

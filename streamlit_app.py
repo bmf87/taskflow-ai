@@ -265,12 +265,7 @@ with st.container():
         # Reviewer details
         st.markdown('<div id="reviewer-step"></div>', unsafe_allow_html=True)
         
-        num_suggestions = 0
-        if trace.reviewer and trace.reviewer.response:
-            import re
-            for line in trace.reviewer.response.splitlines():
-                if re.match(r"^(\-|\*|\d+[\.\)])\s+", line.strip()):
-                    num_suggestions += 1
+        num_suggestions = len(trace.reviewer.tasks) if trace.reviewer else 0
                     
         reviewer_title = f"Reviewer Step ({num_suggestions} suggestions)" if num_suggestions > 0 else "Reviewer Step"
 
