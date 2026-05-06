@@ -1,6 +1,6 @@
 ---
 title: TaskFlow Agent
-emoji: 📊
+emoji: 📚
 short_description: "Multi-agent task orchestrator"
 colorFrom: blue
 sdk: docker
